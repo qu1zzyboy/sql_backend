@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  mysqltry:
+    build:
+      context: .
+      args:
+        NODE_ENV: DEV_MODE
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    environment:
+      - PORT=3000
+      - MYSQL_USER=Hanbo
+      - MYSQL_DATABASE=WebDatabase
+    depends_on:
+      - sqldb
+    ports:
+      - 4000:3000
+    command: npm run dev
+
+  sqldb:
+    image: mysql:8.3.0
+    environment:
+      MYSQL_USER: Hanbo
+      MYSQL_PASSWORD: lhb1999114
+      MYSQL_DATABASE: WebDatabase
+      MYSQL_ROOT_PASSWORD: helloworld
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 3000:8080
+  redis:
+    image: redis
